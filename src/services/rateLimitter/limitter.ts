@@ -2,9 +2,13 @@ import bucket from "../../models/bucket";
 
 /** A rate-limiter that can be used to throttle requests using the token bucket algorithm */
 export default class RateLimitter {
+  tokens: number = 0;
+
+  associationKey: string;
+
   constructor(associationKey: string) {
-    this.tokens = maxTokens;
-    this.lastRefill = Date.now();
+    this.associationKey = associationKey;
+    this.tokens;
   }
 
   /**
