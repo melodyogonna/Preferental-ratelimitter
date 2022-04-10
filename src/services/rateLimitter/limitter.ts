@@ -29,4 +29,8 @@ export default class RateLimitter {
   consumeToken() {
     this.tokens--;
   }
+
+  private getTokens() {
+    return bucket.get(this.associationKey).tokens;
+  }
 }

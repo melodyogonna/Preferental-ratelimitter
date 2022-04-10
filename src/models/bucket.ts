@@ -8,9 +8,10 @@ const bucket = new Schema(
       type: String,
       required: true,
     },
-    remaining_requests: {
+    tokens: {
       type: Number,
       required: true,
+      default: 0,
     },
   },
   { timestamps: true }
