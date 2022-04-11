@@ -13,5 +13,21 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   rules: {
     "import/extensions": "off",
+    "lines-between-class-members": "off",
   },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
+  },
+  overrides: [
+    {
+      files: ["*.test.js", "*.test.ts"],
+      rules: {
+        "no-unused-expressions": "off",
+      },
+    },
+  ],
 };
