@@ -1,3 +1,4 @@
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/melodyogonna/Preferental-ratelimitter/node-ci)
 # Preferental rate limiting service
 
 This is a service that allows you to set a request API limit for users based on their API key.
