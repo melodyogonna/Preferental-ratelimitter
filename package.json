@@ -4,7 +4,7 @@
   "description": "A rate limiting service for Preferental Inc",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r esm -r ts-node/register tests/*.test.ts",
+    "test": "mocha -r ts-node/register tests/*.test.ts",
     "start": "node dist/bin/index.js",
     "start:dev": "ts-node-dev ./bin",
     "build": "tsc"

@@ -8,7 +8,9 @@ import DAO from "../src/services/rateLimitter/dao";
 
 chai.use(chaiAsPromised);
 describe("Tests for the rate limiting class", () => {
-  afterEach(() => {});
+  afterEach(() => {
+    sinon.restore();
+  });
   it("Test limit manager canMakeRequest is called", () => {
     const limiter = new LimitManager("dummyKey");
     const stub = sinon.stub(limiter, "canMakeRequest").returns(true);
