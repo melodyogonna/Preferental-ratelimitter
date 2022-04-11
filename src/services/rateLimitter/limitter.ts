@@ -1,36 +1,51 @@
-import bucket from "../../models/bucket";
+import DAO from "./dao";
 
-/** A rate-limiter that can be used to throttle requests using the token bucket algorithm */
-export default class RateLimitter {
+import { bucketInterface } from "./interfaces";
+
+/** A rate-limiter that can be used to throttle requests using the token bucket algorithm
+ * @param {string} associatedKey - The key to associate with the limiter, this is what the user is tied to
+ */
+export default class LimitManager {
+  private tokens: number = 0;
+  private readonly associationKey: string;
+  private bucket: bucketInterface = {};
+
   constructor(associationKey: string) {
-    this.tokens = maxTokens;
-    this.lastRefill = Date.now();
+    this.associationKey = associationKey;
   }
 
-  /**
-   * Returns true if the limitter can make a request, false otherwise
-   */
   canMakeRequest() {
-    const now = Date.now();
-    const delta = now - this.lastRefill;
-    if (delta > 1000) {
-      this.lastRefill = now;
-      this.tokens = Math.min(
-        this.maxTokens,
-        this.tokens + (delta * this.tokensPerSecond) / 1000
-      );
-    }
     return this.tokens > 0;
   }
 
   /**
-   * Consumes a token from the limitter
+   * Consumes a token from the token bucket
    */
-  consumeToken() {
-    this.tokens--;
+  async consumeToken() {
+    this.tokens -= 1;
+    await DAO.updateBucket(this.associationKey, this.tokens);
   }
 
-  private getTokens() {
-    return bucket.get(this.associationKey).tokens;
+  /**
+   * Gets the number of tokens from the database
+   */
+  private async getBucket() {
+    const bucket = await DAO.getBucket(this.associationKey);
+    return bucket;
+  }
+
+  async refillBucket(tokenSize: number) {
+    this.tokens += tokenSize;
+    await DAO.updateBucket(this.associationKey, this.tokens);
+  }
+
+  get tokensRemaining() {
+    return this.tokens;
+  }
+
+  async init() {
+    const bucket = await this.getBucket();
+    this.bucket = bucket;
+    this.tokens = bucket.tokens;
   }
 }
