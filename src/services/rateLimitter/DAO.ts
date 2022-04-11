@@ -1,35 +1,29 @@
 import bucket from "../../models/bucket";
 
-export default class DAO {
-  public async getBucket(associationKey: string): Promise<bucket> {
-    return await bucket.findOne({
+export default class DataLimitterDAO {
+  static async getBucket(associationKey: string) {
+    return bucket.findOne({
       where: {
         name: associationKey,
       },
     });
   }
 
-  public async createBucket(
-    associationKey: string,
-    tokens: number
-  ): Promise<bucket> {
-    return await bucket.create({
+  static async createBucket(associationKey: string, tokens: number) {
+    return bucket.create({
       name: associationKey,
-      count: tokens,
+      tokens,
     });
   }
 
-  public async updateBucket(
-    associationKey: string,
-    tokens: number
-  ): Promise<bucket> {
-    return await bucket.update(
+  static async updateBucket(associationKey: string, tokens: number) {
+    return bucket.update(
       {
         tokens,
       },
       {
         where: {
-          name: associationKey,
+          association_key: associationKey,
         },
       }
     );
