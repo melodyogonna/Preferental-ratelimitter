@@ -4,14 +4,14 @@ export default class DataLimitterDAO {
   static async getBucket(associationKey: string) {
     return bucket.findOne({
       where: {
-        name: associationKey,
+        identification_access_key: associationKey,
       },
     });
   }
 
   static async createBucket(associationKey: string, tokens: number) {
     return bucket.create({
-      name: associationKey,
+      identification_access_key: associationKey,
       tokens,
     });
   }
@@ -23,7 +23,7 @@ export default class DataLimitterDAO {
       },
       {
         where: {
-          association_key: associationKey,
+          identification_access_key: associationKey,
         },
       }
     );

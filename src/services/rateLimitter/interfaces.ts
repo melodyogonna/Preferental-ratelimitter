@@ -4,3 +4,7 @@ export interface bucketInterface {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface limitManagerInterface {
+  associationKey: string;
+}

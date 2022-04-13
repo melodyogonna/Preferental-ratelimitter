@@ -1,6 +1,6 @@
 import DAO from "./dao";
 
-import { bucketInterface } from "./interfaces";
+import { bucketInterface, limitManagerInterface } from "./interfaces";
 
 /** A rate-limiter that can be used to throttle requests using the token bucket algorithm
  * @param {string} associatedKey - The key to associate with the limiter, this is what the user is tied to
@@ -10,7 +10,7 @@ export default class LimitManager {
   private readonly associationKey: string;
   private bucket: bucketInterface = {};
 
-  constructor(associationKey: string) {
+  constructor({ associationKey }: limitManagerInterface) {
     this.associationKey = associationKey;
   }
 
@@ -37,6 +37,11 @@ export default class LimitManager {
   async refillBucket(tokenSize: number) {
     this.tokens += tokenSize;
     await DAO.updateBucket(this.associationKey, this.tokens);
+  }
+
+  async createBucket(tokenSize: number) {
+    this.tokens = tokenSize;
+    await DAO.createBucket(this.associationKey, this.tokens);
   }
 
   get tokensRemaining() {
