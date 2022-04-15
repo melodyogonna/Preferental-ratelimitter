@@ -19,14 +19,14 @@ export default class RateLimiter {
    * Refills the token bucket
    */
   async refillBucket(tokenSize: number): Promise<void> {
-    this.rateLimitManager.refillBucket(tokenSize);
+    await this.rateLimitManager.refillBucket(tokenSize);
   }
 
   /**
    * consumes a token from the token bucket
    */
   async consumeToken(): Promise<void> {
-    this.rateLimitManager.consumeToken();
+    await this.rateLimitManager.consumeToken();
   }
 
   /**
@@ -37,12 +37,11 @@ export default class RateLimiter {
   }
 
   /** Create a new bucket with the given size */
-  createBucket(tokenSize: number): void {
-    this.rateLimitManager.createBucket(tokenSize);
+  async createBucket(tokenSize: number): Promise<void> {
+    await this.rateLimitManager.createBucket(tokenSize);
   }
 
   async init(identificationAccessKey: string): Promise<void> {
-    this.rateLimitManager.init(identificationAccessKey);
-    console.log(this.rateLimitManager);
+    await this.rateLimitManager.init(identificationAccessKey);
   }
 }

@@ -31,7 +31,6 @@ export default class LimitManager {
    */
   private async getBucket() {
     const bucket = await DAO.getBucket(this.identificationAccessKey);
-    console.log(bucket);
     return bucket;
   }
 

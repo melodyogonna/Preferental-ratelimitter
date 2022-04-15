@@ -12,7 +12,7 @@ describe("Tests for the rate limiting class", () => {
     sinon.restore();
   });
   it("Test limit manager canMakeRequest is called", () => {
-    const limiter = new LimitManager("dummyKey");
+    const limiter = new LimitManager();
     const stub = sinon.stub(limiter, "canMakeRequest").returns(true);
     const rateLimitter = new RateLimitter(limiter);
     expect(rateLimitter.canMakeRequest()).to.be.true;
@@ -26,31 +26,31 @@ describe("Tests for the rate limiting class", () => {
         lastUpdated: new Date(),
       })
     );
-    const limiter = new LimitManager("dummyKey");
-    await limiter.init();
+    const limiter = new LimitManager();
+    await limiter.init("dummyKey");
     expect(limiter.tokensRemaining).to.be.equal(10);
     expect(stub.calledOnce).to.be.true;
   });
 
   it("The token bucket can be refilled", async () => {
     const stub = sinon.stub(DAO, "updateBucket");
-    const limiter = new LimitManager("dummyKey");
+    const limiter = new LimitManager();
     await limiter.refillBucket(10);
     expect(limiter.tokensRemaining).to.be.equal(10);
     expect(stub.calledOnce).to.be.true;
   });
-});
 
-it("consumes the tokens", async () => {
-  const updateBucketStub = sinon.stub(DAO, "updateBucket");
-  const getBucketStub = sinon.stub(DAO, "getBucket").resolves({
-    lastUpdated: new Date(),
-    tokens: 10,
+  it("consumes the tokens", async () => {
+    const updateBucketStub = sinon.stub(DAO, "updateBucket");
+    const getBucketStub = sinon.stub(DAO, "getBucket").resolves({
+      lastUpdated: new Date(),
+      tokens: 10,
+    });
+    const limiter = new LimitManager();
+    await limiter.init("dummyKey");
+    await limiter.consumeToken();
+    expect(limiter.tokensRemaining).to.be.equal(9);
+    expect(getBucketStub.calledOnce).to.be.true;
+    expect(updateBucketStub.calledOnce).to.be.true;
   });
-  const limiter = new LimitManager("dummyKey");
-  await limiter.init();
-  await limiter.consumeToken();
-  expect(limiter.tokensRemaining).to.be.equal(9);
-  expect(getBucketStub.calledOnce).to.be.true;
-  expect(updateBucketStub.calledOnce).to.be.true;
 });

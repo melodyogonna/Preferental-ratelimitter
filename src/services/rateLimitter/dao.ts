@@ -3,9 +3,7 @@ import bucket from "../../models/bucket";
 export default class DataLimitterDAO {
   static async getBucket(identificationAccessKey: string) {
     return bucket.findOne({
-      where: {
-        identification_access_key: identificationAccessKey,
-      },
+      identification_access_key: identificationAccessKey,
     });
   }
 
@@ -17,14 +15,12 @@ export default class DataLimitterDAO {
   }
 
   static async updateBucket(identificationAccessKey: string, tokens: number) {
-    return bucket.update(
+    return bucket.updateOne(
       {
-        tokens,
+        identification_access_key: identificationAccessKey,
       },
       {
-        where: {
-          identification_access_key: identificationAccessKey,
-        },
+        tokens,
       }
     );
   }

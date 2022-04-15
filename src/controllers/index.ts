@@ -15,12 +15,12 @@ export default class RateLimitingController {
       const rateLimiter = request.container.resolve("rateLimiter");
       await rateLimiter.init(user_identification_key);
       if (rateLimiter.canMakeRequest()) {
-        await rateLimiter.consume();
+        await rateLimiter.consumeToken();
         return response.status(200).json({
           message: "Request accepted",
         });
       }
-      // throw new UnauthorizedException("Rate limit exceeded");
+      throw new UnauthorizedException("Rate limit exceeded");
     } catch (error) {
       return next(error);
     }
