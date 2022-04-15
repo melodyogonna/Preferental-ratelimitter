@@ -1,10 +1,6 @@
 export interface bucketInterface {
   tokens?: number;
-  associated_key?: string;
+  identificationAccessKey?: string;
   createdAt?: string;
   updatedAt?: string;
-}
-
-export interface limitManagerInterface {
-  associationKey: string;
 }

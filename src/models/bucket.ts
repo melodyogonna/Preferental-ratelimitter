@@ -7,6 +7,7 @@ const bucket = new Schema(
     identification_access_key: {
       type: String,
       required: true,
+      unique: true,
     },
     tokens: {
       type: Number,
