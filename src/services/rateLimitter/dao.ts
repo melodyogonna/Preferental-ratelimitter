@@ -1,30 +1,26 @@
 import bucket from "../../models/bucket";
 
 export default class DataLimitterDAO {
-  static async getBucket(associationKey: string) {
+  static async getBucket(identificationAccessKey: string) {
     return bucket.findOne({
-      where: {
-        name: associationKey,
-      },
+      identification_access_key: identificationAccessKey,
     });
   }
 
-  static async createBucket(associationKey: string, tokens: number) {
+  static async createBucket(identificationAccessKey: string, tokens: number) {
     return bucket.create({
-      name: associationKey,
+      identification_access_key: identificationAccessKey,
       tokens,
     });
   }
 
-  static async updateBucket(associationKey: string, tokens: number) {
-    return bucket.update(
+  static async updateBucket(identificationAccessKey: string, tokens: number) {
+    return bucket.updateOne(
       {
-        tokens,
+        identification_access_key: identificationAccessKey,
       },
       {
-        where: {
-          association_key: associationKey,
-        },
+        tokens,
       }
     );
   }

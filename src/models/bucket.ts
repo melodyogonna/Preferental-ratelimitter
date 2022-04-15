@@ -4,9 +4,10 @@ const { Schema } = mongoose;
 
 const bucket = new Schema(
   {
-    association_key: {
+    identification_access_key: {
       type: String,
       required: true,
+      unique: true,
     },
     tokens: {
       type: Number,

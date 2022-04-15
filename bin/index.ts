@@ -4,11 +4,10 @@
  * Module dependencies.
  */
 
+import "dotenv/config";
 import http from "http";
-import dotenv from "dotenv";
 import app from "../index";
 // initialize dot env file
-dotenv.config();
 
 /**
  * Get port from environment and store in Express.
