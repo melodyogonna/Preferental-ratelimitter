@@ -8,7 +8,7 @@ import { bucketInterface } from "./interfaces";
 export default class LimitManager {
   private tokens: number = 0;
   private identificationAccessKey: string;
-  private bucket: bucketInterface = {};
+  private bucket: bucketInterface | null = null;
 
   constructor() {
     this.identificationAccessKey = "";
@@ -41,7 +41,14 @@ export default class LimitManager {
 
   async createBucket(tokenSize: number) {
     this.tokens = tokenSize;
-    await DAO.createBucket(this.identificationAccessKey, this.tokens);
+    if (this.bucket) {
+      throw new Error("Bucket already exists");
+    }
+    const bucket = await DAO.createBucket(
+      this.identificationAccessKey,
+      this.tokens
+    );
+    this.bucket = bucket;
   }
 
   get tokensRemaining() {

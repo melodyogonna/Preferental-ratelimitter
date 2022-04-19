@@ -32,7 +32,7 @@ export default class RateLimiter {
   /**
    * Returns the current number of tokens in the bucket
    */
-  getCurrentTokens(): number {
+  getRemainingTokens(): number {
     return this.rateLimitManager.tokensRemaining;
   }
 
