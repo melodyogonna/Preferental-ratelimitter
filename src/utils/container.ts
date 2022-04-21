@@ -37,9 +37,6 @@ container.register({
   pubsub: asClass(pubsub),
   consumerManager: asClass(ConsumerManager),
 });
-container.register({
-  eventEmitter: asFunction(() => new EventEmitter()).singleton(),
-});
 
 container.register({
   app: asFunction(application).singleton(),

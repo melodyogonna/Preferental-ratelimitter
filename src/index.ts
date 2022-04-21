@@ -24,12 +24,13 @@ export default function application(container: AwilixContainer) {
     });
   });
 
-  const { refillBucketHandler, createBucketHandler, eventEmitter, pubsub } =
-    container.cradle;
+  const { refillBucketHandler, createBucketHandler, pubsub } = container.cradle;
 
-  pubsub.consume("ratelimit");
-  eventEmitter.on("ratelimit.createBucket", createBucketHandler);
-  eventEmitter.on("ratelimit.refillBucket", refillBucketHandler);
+  (async () => {
+    await pubsub.init();
+    pubsub.consume("ratelimit", "ratelimit.createBucket", createBucketHandler);
+    pubsub.consume("ratelimit", "ratelimit.refillBucket", refillBucketHandler);
+  })();
 
   return app;
 }

@@ -7,7 +7,11 @@ export default class Pubsub {
     this.consumerManager = consumerManager;
   }
 
-  async consume(queue: string, topic: string) {
-    await this.consumerManager.consumeMessage(queue, topic);
+  async consume(queue: string, topic: string, callback: any) {
+    await this.consumerManager.consumeMessage(queue, topic, callback);
+  }
+
+  async init() {
+    await this.consumerManager.init();
   }
 }

@@ -1,7 +1,8 @@
+import { ConsumeMessage } from "amqplib";
 import { Schema } from "joi";
+
 import { createUpdateBucketInterface } from "./interfaces";
 import RateLimiter from "./index";
-
 import {
   refillBucketValidator,
   createBucketValidator,
@@ -14,21 +15,25 @@ function validate(schema: Schema, data: any) {
   }
 }
 export function createBucketHandler(rateLimiter: RateLimiter) {
-  return async (data: createUpdateBucketInterface) => {
-    validate(createBucketValidator, data);
-    const { tokens, identificationAccessKey } = data;
-    await rateLimiter.init(identificationAccessKey);
-    const bucket = await rateLimiter.createBucket(tokens);
-    return bucket;
+  return async (message: ConsumeMessage | null) => {
+    if (message) {
+      const data = JSON.parse(message.content.toString());
+      validate(createBucketValidator, data);
+      const { tokens, identificationAccessKey } = data;
+      await rateLimiter.init(identificationAccessKey);
+      await rateLimiter.createBucket(tokens);
+    }
   };
 }
 
 export function refillBucketHandler(rateLimiter: RateLimiter) {
-  return async (data: createUpdateBucketInterface) => {
-    validate(refillBucketValidator, data);
-    const { tokens, identificationAccessKey } = data;
-    await rateLimiter.init(identificationAccessKey);
-    const bucket = await rateLimiter.refillBucket(tokens);
-    return bucket;
+  return async (message: ConsumeMessage | null) => {
+    if (message) {
+      const data = JSON.parse(message.content.toString());
+      validate(refillBucketValidator, data);
+      const { tokens, identificationAccessKey } = data;
+      await rateLimiter.init(identificationAccessKey);
+      await rateLimiter.refillBucket(tokens);
+    }
   };
 }
