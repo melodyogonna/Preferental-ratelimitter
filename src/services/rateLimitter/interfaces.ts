@@ -4,3 +4,8 @@ export interface bucketInterface {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface createUpdateBucketInterface {
+  tokens: number;
+  identificationAccessKey: string;
+}

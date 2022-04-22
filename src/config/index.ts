@@ -5,5 +5,5 @@ export default {
       ? "mongodb://localhost:27017/preferental"
       : ""),
 
-  AMQP_URL: process.env.AMQP_URL,
+  AMQP_URL: process.env.AMQP_URI,
 };
