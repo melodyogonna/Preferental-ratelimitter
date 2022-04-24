@@ -10,8 +10,8 @@ You only have the synchronous RESTful interface for checking whether a user can 
 
 To use RabbitMQ, publish messages to `ratelimiter` queue, using **topic** exchange, with the following routing keys:
 
-- `ratelimiter.create-bucket` - Create a new token bucket for a user
-- `ratelimiter.refill-bucket` - Refill a user's token bucket.
+- `ratelimiter.createBucket` - Create a new token bucket for a user
+- `ratelimiter.refillBucket` - Refill a user's token bucket.
 
 ## Contribute
 ### Dependencies
