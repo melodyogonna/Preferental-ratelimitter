@@ -1,4 +1,4 @@
-# Preferental rate limiting service
+# Token-Bucket rate limiting service
 
 This is a service that allows you to set a request API limit for users based on their API key.
 
